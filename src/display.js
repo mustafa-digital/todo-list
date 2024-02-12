@@ -15,15 +15,11 @@ export default class Display {
     }
 
     changePageSelect(element) {
-        let originalPage = this.currentPageSelect;
         if(this.currentPageSelect != null) 
             this.currentPageSelect.classList.remove("sidebar-selected");
 
         this.currentPageSelect = element;
-        console.log(element);
         this.currentPageSelect.classList.add("sidebar-selected");
-        console.log(element);
-        let changedPage = this.currentPageSelect;
     }
 
     clearProjectsDiv() {
@@ -74,11 +70,6 @@ export default class Display {
     }
 
     displayProjectContent(project) {
-
-        // const projectButton = document.querySelector(`[data-project-id="${project.getProjectID()}"]`);
-        // projectButton.classList.toggle("sidebar-selected");
-        
-
         const editProjDiv = document.querySelector(".edit-proj-div");
         if (project.getProjectID() !== 0) {
         editProjDiv.style.display = "block";
@@ -146,15 +137,10 @@ export default class Display {
         checkTask.setAttribute("class", "check-task");
         taskWrapper.appendChild(checkTask);
 
-        if (task.getIsDone()) {
-            checkTask.checked = true;
-        }
+        if (task.getIsDone()) { checkTask.checked = true; }
 
         checkTask.addEventListener("change", e => {
-            console.log(task.getIsDone() === true );
             task.getIsDone() === true ? task.setIsDone(false) : task.setIsDone(true);     
-            // console.log(task.getIsDone());
-
         });
 
         const inputCollapsible = document.createElement("input");
@@ -187,9 +173,7 @@ export default class Display {
         innerContentCollapsible.appendChild(taskDesc);
         
         const taskPrio = document.createElement("p");
-        if (task.getPriority() != "none") {
-            taskPrio.textContent = `Priority: ${task.getPriority()}`;
-        }
+        if (task.getPriority() != "none") { taskPrio.textContent = `Priority: ${task.getPriority()}`; }
         taskPrio.setAttribute("class", "task-prio");
         innerContentCollapsible.appendChild(taskPrio);
         
@@ -199,18 +183,11 @@ export default class Display {
         }
         taskDiff.setAttribute("class", `task-diff task-${task.getDifficulty()}`);
         innerContentCollapsible.appendChild(taskDiff);
-        
 
         const taskDueDate = document.createElement("p");
-            taskDueDate.setAttribute("class", "task-due-date");
+        taskDueDate.setAttribute("class", "task-due-date");
 
-        if (task.getDueDate() !== "") {
-            taskDueDate.textContent =  `Due: ${task.getDueDate()}`;
-        }
-        else {
-            taskDueDate.textContent = "No due date :)";
-        }
-
+        task.getDueDate() !== "" ? taskDueDate.textContent =  `Due: ${task.getDueDate()}` : taskDueDate.textContent = "No due date :)";
         innerContentCollapsible.appendChild(taskDueDate);
 
         const tagWrapper = document.createElement("div");
@@ -404,7 +381,7 @@ export default class Display {
 
         const taskWrapper = document.createElement("div");
         taskWrapper.setAttribute("class", "task-content-wrapper collapsible-wrapper");
-        taskWrapper.setAttribute("data-task-id",`${task.getID()}`);
+        // taskWrapper.setAttribute("data-task-id",`${task.getID()}`);
 
         const projectHeader = document.createElement('a');
         projectHeader.classList.add('task-due-soon-proj-link');
@@ -414,14 +391,14 @@ export default class Display {
         taskWrapper.appendChild(projectHeader);
 
         const inputCollapsible = document.createElement("input");
-        inputCollapsible.setAttribute("id", `collapsible-${task.getID()}`);
+        inputCollapsible.setAttribute("id", `collapsible-home-${task.getID()}`);
         inputCollapsible.setAttribute("class", "toggle");
         inputCollapsible.setAttribute("type", "checkbox");
         taskWrapper.appendChild(inputCollapsible);
 
         const labelCollapsible = document.createElement("label");
         labelCollapsible.setAttribute("class", "lbl-toggle");
-        labelCollapsible.setAttribute("for", `collapsible-${task.getID()}`);
+        labelCollapsible.setAttribute("for", `collapsible-home-${task.getID()}`);
         taskWrapper.appendChild(labelCollapsible);
 
         const labelSpan = document.createElement("span");
@@ -458,9 +435,7 @@ export default class Display {
         
 
         const taskDueDate = document.createElement("p");
-            taskDueDate.setAttribute("class", "task-due-date");
-
-
+        taskDueDate.setAttribute("class", "task-due-date");
         taskDueDate.textContent =  `Due: ${task.getDueDate()}`;
         
 
