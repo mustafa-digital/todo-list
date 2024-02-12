@@ -93,6 +93,14 @@ export default class Task {
         this.isDone = isDone;
     }
 
+    getIsOverDue() {
+        return this.isOverdue;
+    }
+
+    setIsOverDue(isOverdue) {
+        this.isOverdue = isOverdue;
+    }
+
     editTask(title, description, dueDate, priority, difficulty, tags) {
         this.title = title;
         this.description = description;

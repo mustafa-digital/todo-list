@@ -358,6 +358,11 @@ input.toggle {
     box-shadow: 4px 4px lightgray;
 }
 
+.task-due-date-label {
+    position: absolute;
+    right: 10px;
+}
+
 .collapsible-content-inner {
     display: grid;
     grid-template-columns: 85% 15%;
@@ -819,7 +824,21 @@ section.home-my-projects {
 
 .home-tasks-due-soon-wrapper {
     cursor: pointer;
-    color: green;
+    display: grid;
+    row-gap: 10px;
+    padding: 10px 0px;
+}
+.overdue {
+    color: red;
+}
+
+.due-soon {
+    color: #fbbf24;
+}
+
+.task-due-date-label {
+    position: absolute;
+    right: 10px;
 }
 
 .form-cancel-btn,

@@ -381,7 +381,7 @@ export default class Display {
 
         const taskWrapper = document.createElement("div");
         taskWrapper.setAttribute("class", "task-content-wrapper collapsible-wrapper");
-        // taskWrapper.setAttribute("data-task-id",`${task.getID()}`);
+        taskWrapper.setAttribute("data-task-due-id",`${task.getID()}`);
 
         const projectHeader = document.createElement('a');
         projectHeader.classList.add('task-due-soon-proj-link');
@@ -398,6 +398,8 @@ export default class Display {
 
         const labelCollapsible = document.createElement("label");
         labelCollapsible.setAttribute("class", "lbl-toggle");
+        if (task.getIsOverDue()) labelCollapsible.classList.add("overdue");
+        else labelCollapsible.classList.add("due-soon");
         labelCollapsible.setAttribute("for", `collapsible-home-${task.getID()}`);
         taskWrapper.appendChild(labelCollapsible);
 
@@ -405,6 +407,11 @@ export default class Display {
         labelSpan.textContent = task.getTitle();
         labelSpan.setAttribute("class", "lbl-span");
         labelCollapsible.appendChild(labelSpan);
+
+        const taskDueDateLabel = document.createElement("p");
+        taskDueDateLabel.setAttribute("class", "task-due-date-label");
+        taskDueDateLabel.textContent =  `Due: ${task.getDueDate()}`;
+        labelCollapsible.appendChild(taskDueDateLabel);
 
         const contentCollapsible = document.createElement("div");
         contentCollapsible.setAttribute("class", "collapsible-content");
