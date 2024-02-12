@@ -810,11 +810,11 @@ input#task-hard:checked:after {
 }
 
 section.home-due-soon {
-    grid-area: 1 / 1 / 2 / 2;
+    grid-area: 2 / 1 / 3 / 2;
 }
 
 section.home-my-projects {
-    grid-area: 2 / 1 / 3 / 2;
+    grid-area: 1 / 1 / 2 / 2;
 }
 
 .home-due-soon-header,
@@ -839,6 +839,85 @@ section.home-my-projects {
 .task-due-date-label {
     position: absolute;
     right: 10px;
+}
+
+.my-projects-wrapper {
+    display: grid;
+    row-gap: 25px;
+    padding: 10px 0px;
+}
+
+.my-projects-wrapper > div {
+    display: grid;
+    grid-template-rows: 1fr 1fr;
+    grid-template-columns: 3fr 1fr;
+    justify-content: center;
+}
+
+.my-projects-wrapper > div > h1 {
+    grid-area: 1 / 1 / 2 / 2;
+    align-self: end;
+    font-size: 1.35rem;
+}
+
+.my-projects-wrapper > div > p {
+    grid-area: 2 / 1 / 3 / 2;
+}
+
+.my-projects-wrapper > div > button {
+    grid-area: 1 / 2 / 3 / 3;
+    background-color: #15803d;
+    color: #fafafa;
+    border-radius: 0.5rem;
+    width: 120px;
+    height: 55px;
+    padding: 5px;
+    font-size: 1.0rem;
+}
+
+.home-no-tasks-due {
+    display: none;
+    width: 400px;
+    height: 75px;
+    border-radius: 20px;
+    color: #fafafa;
+    box-shadow: 2px 2px 2px #242424;
+    font-size: 1.5rem;
+    background: radial-gradient(circle at -1% 57.5%, rgb(19, 170, 82) 0%, rgb(0, 102, 43) 90%);
+    margin-left: 25%;
+    margin-top: 10px;
+    text-align: center;
+    justify-items: center;
+    align-items: center;
+}
+
+.home-no-projects {
+    display: none;
+    width: 400px;
+    height: 75px;
+    font-size: 1.5rem;
+    text-align: center;
+    justify-items: center;
+    align-items: center;
+    margin-left: 25%;
+}
+
+.home-no-projects > button {
+    background: radial-gradient(circle at -1% 57.5%, rgb(19, 170, 82) 0%, rgb(0, 102, 43) 90%);
+    border-radius: 20px; 
+    color: #fafafa; 
+    box-shadow: 2px 2px 2px #242424;
+    height: 40px;
+    width: 200px;
+    font-size: 1.15rem;
+}
+
+.home-no-projects > button:hover {
+    background: radial-gradient(circle at -1% 57.5%, rgba(19, 170, 82, 0.8) 0%, rgba(0, 102, 43, 0.8) 90%);
+}
+
+.home-no-projects > button:active {
+    background: radial-gradient(circle at -1% 57.5%, rgb(19, 170, 82) 0%, rgb(0, 102, 43) 90%);
 }
 
 .form-cancel-btn,

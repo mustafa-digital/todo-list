@@ -27,9 +27,11 @@ document.addEventListener("DOMContentLoaded", () => {
     // display.displayProjectContent(currentProject);
 
     // add project button shows the project form modal
-    const addProjectButton = document.querySelector(".add-proj-btn");
-    addProjectButton.addEventListener("click", () => {
-        newProjectModal.showModal();
+    const addProjectButton = document.querySelectorAll(".add-proj-btn");
+        addProjectButton.forEach(btn => {
+            btn.addEventListener("click", () => {
+            newProjectModal.showModal();
+        });
     });
 
     sideLinkListeners();
@@ -318,7 +320,7 @@ function deleteProjectButtonEvent() {
         display.removeProject(projectToDelete);
         todo.deleteCurrentProject();
 
-        display.displayHome();
+        display.displayHome(todo.projects);
     });
 }
 
@@ -403,5 +405,16 @@ function displayHome() {
         });
     });
 
-    display.displayHome();
+    display.displayHome(todo.projects);
+
+
+    const myProjectBtns = document.querySelectorAll('.go-project-btn');
+    myProjectBtns.forEach(btn => {
+        btn.addEventListener('click', e => {
+            setAndDisplayProject(Number(btn.dataset.goProjectId));
+
+            const button = document.querySelector(`[data-project-id="${Number(btn.dataset.goProjectId)}"]`);
+            display.changePageSelect(button);
+        });
+    });
 }

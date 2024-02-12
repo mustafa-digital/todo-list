@@ -76,9 +76,7 @@ export default class ToDoList {
                 }
             });
         });
-        console.log({dueSoonList});
         const sortedTasks = this.sortTasksByDueDate(dueSoonList);
-        console.log({sortedTasks});
         return sortedTasks;
     }
 
@@ -90,22 +88,13 @@ export default class ToDoList {
         let right = [];
 
         for (let i = 0; i < tasks.length - 1; i++) {
-            console.log(Date.parse(tasks[i]["task"].getDueDate()));
-            console.log(Date.parse(pivot["task"].getDueDate()));
-
 
             if (Date.parse(tasks[i]["task"].getDueDate()) < Date.parse(pivot["task"].getDueDate())) {
-                console.log('left');
                 left.push(tasks[i]);
             } else  {
-                console.log('right');
                 right.push(tasks[i]);
-                console.log(tasks[i]);
-                console.log({right});
             }
         }
-        console.log({left});
-        console.log({right});
 
         return [...this.sortTasksByDueDate(left), pivot, ...this.sortTasksByDueDate(right)];
     }

@@ -354,7 +354,7 @@ export default class Display {
         }
 
     }
-    displayHome() {
+    displayHome(projects) {
         const editProjDiv = document.querySelector(".edit-proj-div");
         editProjDiv.style.display = "none";
 
@@ -366,15 +366,72 @@ export default class Display {
 
         const bodyHeader = document.querySelector(".body-header");
         bodyHeader.textContent = "My Todo's";
+
+        const wrapper= document.querySelector('.my-projects-wrapper');
+        wrapper.textContent = '';
+
+        const noProjects = document.querySelector('.home-no-projects');
+        if (projects.size === 0) noProjects.style.display = 'grid';
+        else {
+            noProjects.style.display = 'none';
+            projects.forEach(project => {
+                this.displayProjectInfoHomePage(project);
+            });
+        }
+    }
+
+    displayProjectInfoHomePage(project) {
+        if (!project) return;
+
+        const wrapper= document.querySelector('.my-projects-wrapper');
+
+        const div = document.createElement('div');
+        
+        const heading = document.createElement('h1');
+        heading.textContent = project.getProjectName();
+        div.appendChild(heading);
+
+        const projectTasks = project.getProjectTasks();
+        const totalTasks = projectTasks.size;
+        let doneTasks = 0;
+
+        projectTasks.forEach(task => {
+            if (task.getIsDone()) doneTasks++;
+        });
+
+        const projectInfo = document.createElement('p');
+
+        if (!totalTasks) projectInfo.textContent = 'No tasks yet in this project.';
+        else {
+            let tasks;
+            doneTasks === 1 ? tasks = 'task' : tasks = 'tasks';
+            projectInfo.textContent = `${doneTasks} ${tasks} finished out of ${totalTasks}.`;
+        }
+        div.appendChild(projectInfo);
+
+        const btn = document.createElement('button');
+        btn.textContent = 'Go to project';
+        btn.classList.add('go-project-btn');
+        btn.setAttribute('data-go-project-id', project.getProjectID());
+        div.appendChild(btn);
+
+        wrapper.appendChild(div);
     }
 
     displayHomeDueSoon(dueSoonList) {
         const homeTaskWrapper = document.querySelector('.home-tasks-due-soon-wrapper');
         homeTaskWrapper.textContent = '';
 
-        dueSoonList.forEach(({task, project}) => {
-            this.displayDueSoonTask(task, project);
-        });
+        const noTasks = document.querySelector('.home-no-tasks-due');
+        if (dueSoonList.length === 0) noTasks.style.display = 'grid';
+        else {
+            noTasks.style.display = 'none';
+
+
+            dueSoonList.forEach(({task, project}) => {
+                this.displayDueSoonTask(task, project);
+            });
+        }
     }
 
     displayDueSoonTask(task, project) {
