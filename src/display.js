@@ -77,8 +77,14 @@ export default class Display {
         editProjDiv.style.display = "none";
         }
 
+        const bodyHeaderWrapper = document.querySelector('.body-header-wrapper');
+        bodyHeaderWrapper.style.display = "block";
+
         const projectBody = document.querySelector(".project-body");
         projectBody.style.display = "block";
+
+        const quoteBody = document.querySelector('.quote-body');
+        quoteBody.style.display = "none";
 
         const homeContent = document.querySelector(".home-body");
         homeContent.style.display = "none";
@@ -358,8 +364,14 @@ export default class Display {
         const editProjDiv = document.querySelector(".edit-proj-div");
         editProjDiv.style.display = "none";
 
+        const bodyHeaderWrapper = document.querySelector('.body-header-wrapper');
+        bodyHeaderWrapper.style.display = "block";
+
         const projectBody = document.querySelector(".project-body");
         projectBody.style.display = "none";
+
+        const quoteBody = document.querySelector('.quote-body');
+        quoteBody.style.display = "none";
 
         const homeContent = document.querySelector(".home-body");
         homeContent.style.display = "grid";
@@ -524,6 +536,31 @@ export default class Display {
         homeTaskWrapper.appendChild(taskWrapper);
     }
 
+    displayQuote(quote, author) {
+        const editProjDiv = document.querySelector(".edit-proj-div");
+        editProjDiv.style.display = "none";
+
+        const bodyHeaderWrapper = document.querySelector('.body-header-wrapper');
+        bodyHeaderWrapper.style.display = "none";
+
+        const projectBody = document.querySelector(".project-body");
+        projectBody.style.display = "none";
+
+        const homeBody = document.querySelector(".home-body");
+        homeBody.style.display = "none";
+
+        const quoteBody = document.querySelector('.quote-body');
+        quoteBody.style.display = "grid";
+
+        const quoteContent = document.querySelector('.quote-content');
+        quoteContent.textContent = quote;
+
+        const quoteAuthor = document.querySelector('.quote-author');
+        quoteAuthor.textContent = "-" + author;
+
+
+
+    }
 
 
 }

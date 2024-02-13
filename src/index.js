@@ -110,6 +110,11 @@ function addHomeLinkEvents() {
         setAndDisplayProject(0);
     });
 
+    const quote = document.querySelector('.quote');
+    quote.addEventListener('click', e => {
+        displayQuote();
+    });
+
 
 }
 
@@ -209,6 +214,9 @@ function newProjectSubmitEvent() {
 
         // close the modal
         newProjectModal.close();
+
+        // refresh the home page
+        displayHome(todo.projects);
 
         // reset the project form
         resetProjectForm();
@@ -313,7 +321,6 @@ function deleteProjectButtonEvent() {
     });
 
     delProjConfirm.addEventListener("click", e => {
-        console.log("click");
         e.stopPropagation();
         delProjModal.close();
         const projectToDelete = todo.getCurrentProject();
@@ -417,4 +424,22 @@ function displayHome() {
             display.changePageSelect(button);
         });
     });
+}
+
+function displayQuote() {
+
+    getQuote().then(res => {
+        display.displayQuote(res.content, res.author);
+    });
+
+
+}
+
+async function getQuote() {
+    const url = "https://api.quotable.io/random?inspirational";
+    const request = new Request(url);
+
+    const res =  await fetch(request);
+
+    return await res.json();
 }

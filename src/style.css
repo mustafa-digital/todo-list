@@ -850,7 +850,7 @@ section.home-my-projects {
 .my-projects-wrapper > div {
     display: grid;
     grid-template-rows: 1fr 1fr;
-    grid-template-columns: 3fr 1fr;
+    grid-template-columns: 1fr 3fr;
     justify-content: center;
 }
 
@@ -873,6 +873,7 @@ section.home-my-projects {
     height: 55px;
     padding: 5px;
     font-size: 1.0rem;
+    justify-self: end;
 }
 
 .home-no-tasks-due {
@@ -918,6 +919,36 @@ section.home-my-projects {
 
 .home-no-projects > button:active {
     background: radial-gradient(circle at -1% 57.5%, rgb(19, 170, 82) 0%, rgb(0, 102, 43) 90%);
+}
+
+.quote-body {
+    display: grid;
+    align-items: center;
+    justify-items: center;
+    height: 250px;
+    width: 100%;
+    margin-top: 5%;
+}
+
+.quote-body > h1 {
+    font-size: 2.5rem;
+}
+
+.quote-wrapper {
+    display: grid;
+    gap: 10px;
+    margin-top: 10%;
+}
+
+.quote-content {
+    font-size: 2.5rem;
+}
+
+.quote-author {
+    justify-self: end;
+    position: relative;
+    right: -30px;
+    font-size: 1.5rem;
 }
 
 .form-cancel-btn,
