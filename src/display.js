@@ -433,6 +433,7 @@ export default class Display {
         const btn = document.createElement('button');
         btn.textContent = 'Go to project';
         btn.classList.add('go-project-btn');
+        btn.classList.add('button-green');
         btn.setAttribute('data-go-project-id', project.getProjectID());
         div.appendChild(btn);
 

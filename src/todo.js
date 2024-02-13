@@ -112,6 +112,16 @@ export default class ToDoList {
                         project: project
                     });
                 }
+                else {
+                    JSON.parse(task.getTags()).forEach(tag => {
+                        if (tag.value.includes(searchVal)) {
+                            tasksResult.push({
+                                task: task,
+                                project: project
+                            });
+                        }
+                    });
+                }
             });
         });
         return tasksResult;

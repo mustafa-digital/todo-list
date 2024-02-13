@@ -338,6 +338,7 @@ input.toggle {
     border: 2px solid lightgray;
     border-radius: 10px;
     max-width: 50vw;
+    margin-top: 2px;
 }
 
 .lbl-toggle:hover {
@@ -469,7 +470,7 @@ input.toggle {
 }
 
 .task-tag {
-    background-color: lightskyblue;
+    background-color: #5cf34c;
     background-position-y: -10px;
     font-size: 1.2rem;
     font-style: italic;
@@ -896,7 +897,7 @@ section.home-my-projects {
 
 .my-projects-wrapper > div > button {
     grid-area: 1 / 2 / 3 / 3;
-    background-color: #15803d;
+    background: radial-gradient(circle at -1% 57.5%, rgb(19, 170, 82) 0%, rgb(0, 102, 43) 90%);;
     color: #fafafa;
     border-radius: 0.5rem;
     width: 120px;
@@ -921,6 +922,7 @@ section.home-my-projects {
     text-align: center;
     justify-items: center;
     align-items: center;
+    border: 2px solid #fafafa;
 }
 
 .home-no-projects {
