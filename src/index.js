@@ -218,6 +218,8 @@ function newProjectSubmitEvent() {
         // refresh the home page
         displayHome(todo.projects);
 
+        display.changePageSelect(document.querySelector('.home'));
+
         // reset the project form
         resetProjectForm();
     });

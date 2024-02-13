@@ -2,6 +2,7 @@ import editImgSrc from './assets/dots-horizontal.svg';
 import addTaskIconSrc from './assets/plus-box.svg';
 import editTaskIconSrc from './assets/pencil-outline.svg';
 import deleteTaskIconSrc from './assets/trash-can-outline.svg';
+import quoteUnderlineSrc from './assets/green-47700.svg';
 
 
 export default class Display {
@@ -552,13 +553,14 @@ export default class Display {
         const quoteBody = document.querySelector('.quote-body');
         quoteBody.style.display = "grid";
 
+        const quoteUnderline = document.querySelector('.quote-underline');
+        quoteUnderline.src = quoteUnderlineSrc;
+
         const quoteContent = document.querySelector('.quote-content');
         quoteContent.textContent = quote;
 
         const quoteAuthor = document.querySelector('.quote-author');
         quoteAuthor.textContent = "-" + author;
-
-
 
     }
 
