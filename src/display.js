@@ -20,7 +20,8 @@ export default class Display {
             this.currentPageSelect.classList.remove("sidebar-selected");
 
         this.currentPageSelect = element;
-        this.currentPageSelect.classList.add("sidebar-selected");
+        if(this.currentPageSelect != null) 
+            this.currentPageSelect.classList.add("sidebar-selected");
     }
 
     clearProjectsDiv() {
@@ -86,6 +87,9 @@ export default class Display {
 
         const quoteBody = document.querySelector('.quote-body');
         quoteBody.style.display = "none";
+
+        const searchBody = document.querySelector('.search-body');
+        searchBody.style.display = 'none';
 
         const homeContent = document.querySelector(".home-body");
         homeContent.style.display = "none";
@@ -374,6 +378,9 @@ export default class Display {
         const quoteBody = document.querySelector('.quote-body');
         quoteBody.style.display = "none";
 
+        const searchBody = document.querySelector('.search-body');
+        searchBody.style.display = 'none';
+
         const homeContent = document.querySelector(".home-body");
         homeContent.style.display = "grid";
 
@@ -440,14 +447,16 @@ export default class Display {
         else {
             noTasks.style.display = 'none';
 
-
+            const homeTaskWrapper = document.querySelector('.home-tasks-due-soon-wrapper');
             dueSoonList.forEach(({task, project}) => {
-                this.displayDueSoonTask(task, project);
+                const taskWrapper = this.displayDueSoonTask(task, project, "home");
+
+                homeTaskWrapper.appendChild(taskWrapper);
             });
         }
     }
 
-    displayDueSoonTask(task, project) {
+    displayDueSoonTask(task, project, pageName) {
 
         const taskWrapper = document.createElement("div");
         taskWrapper.setAttribute("class", "task-content-wrapper collapsible-wrapper");
@@ -461,16 +470,16 @@ export default class Display {
         taskWrapper.appendChild(projectHeader);
 
         const inputCollapsible = document.createElement("input");
-        inputCollapsible.setAttribute("id", `collapsible-home-${task.getID()}`);
+        inputCollapsible.setAttribute("id", `collapsible-${pageName}-${task.getID()}`);
         inputCollapsible.setAttribute("class", "toggle");
         inputCollapsible.setAttribute("type", "checkbox");
         taskWrapper.appendChild(inputCollapsible);
 
         const labelCollapsible = document.createElement("label");
-        labelCollapsible.setAttribute("class", "lbl-toggle");
+        labelCollapsible.setAttribute("class", `lbl-toggle ${pageName}`);
         if (task.getIsOverDue()) labelCollapsible.classList.add("overdue");
         else labelCollapsible.classList.add("due-soon");
-        labelCollapsible.setAttribute("for", `collapsible-home-${task.getID()}`);
+        labelCollapsible.setAttribute("for", `collapsible-${pageName}-${task.getID()}`);
         taskWrapper.appendChild(labelCollapsible);
 
         const labelSpan = document.createElement("span");
@@ -478,10 +487,12 @@ export default class Display {
         labelSpan.setAttribute("class", "lbl-span");
         labelCollapsible.appendChild(labelSpan);
 
-        const taskDueDateLabel = document.createElement("p");
-        taskDueDateLabel.setAttribute("class", "task-due-date-label");
-        taskDueDateLabel.textContent =  `Due: ${task.getDueDate()}`;
-        labelCollapsible.appendChild(taskDueDateLabel);
+        if (pageName === "home") {
+            const taskDueDateLabel = document.createElement("p");
+            taskDueDateLabel.setAttribute("class", "task-due-date-label");
+            taskDueDateLabel.textContent =  `Due: ${task.getDueDate()}`;
+            labelCollapsible.appendChild(taskDueDateLabel);
+        }
 
         const contentCollapsible = document.createElement("div");
         contentCollapsible.setAttribute("class", "collapsible-content");
@@ -513,7 +524,8 @@ export default class Display {
 
         const taskDueDate = document.createElement("p");
         taskDueDate.setAttribute("class", "task-due-date");
-        taskDueDate.textContent =  `Due: ${task.getDueDate()}`;
+        if (task.getDueDate())
+            taskDueDate.textContent =  `Due: ${task.getDueDate()}`;
         
 
         innerContentCollapsible.appendChild(taskDueDate);
@@ -533,8 +545,7 @@ export default class Display {
             });
         }
 
-        const homeTaskWrapper = document.querySelector('.home-tasks-due-soon-wrapper');
-        homeTaskWrapper.appendChild(taskWrapper);
+        return taskWrapper;
     }
 
     displayQuote(quote, author) {
@@ -550,6 +561,9 @@ export default class Display {
         const homeBody = document.querySelector(".home-body");
         homeBody.style.display = "none";
 
+        const searchBody = document.querySelector('.search-body');
+        searchBody.style.display = 'none';
+
         const quoteBody = document.querySelector('.quote-body');
         quoteBody.style.display = "grid";
 
@@ -562,6 +576,45 @@ export default class Display {
         const quoteAuthor = document.querySelector('.quote-author');
         quoteAuthor.textContent = "-" + author;
 
+    }
+
+    displaySearchResults(searchVal, results) {
+        const editProjDiv = document.querySelector(".edit-proj-div");
+        editProjDiv.style.display = "none";
+
+        const bodyHeaderWrapper = document.querySelector('.body-header-wrapper');
+        bodyHeaderWrapper.style.display = "block";
+
+        const projectBody = document.querySelector(".project-body");
+        projectBody.style.display = "none";
+
+        const homeBody = document.querySelector(".home-body");
+        homeBody.style.display = "none";
+
+        const quoteBody = document.querySelector('.quote-body');
+        quoteBody.style.display = "none";
+
+        const bodyHeader = document.querySelector(".body-header");
+        bodyHeader.textContent = `Search Results: "${searchVal}"`;
+
+        const searchBody = document.querySelector('.search-body');
+        searchBody.style.display = 'grid';
+
+        const resultsWrapper = document.querySelector('.search-results-wrapper');
+        resultsWrapper.textContent = '';
+
+
+        const noResults = document.querySelector('.search-no-results');
+        if (results.length === 0) {
+            noResults.style.display = 'grid';
+        }
+        else {
+            noResults.style.display = 'none';
+            for ( const [i, result] of results.entries()) {
+                const taskWrapper = this.displayDueSoonTask(result.task, result.project, "results");
+                resultsWrapper.appendChild(taskWrapper);
+            }
+        }
     }
 
 

@@ -217,7 +217,6 @@ function newProjectSubmitEvent() {
 
         // refresh the home page
         displayHome(todo.projects);
-
         display.changePageSelect(document.querySelector('.home'));
 
         // reset the project form
@@ -403,16 +402,7 @@ function displayHome() {
         display.displayHomeDueSoon(dueSoonList);
     }
 
-    const projectHeaderList = document.querySelectorAll('.task-due-soon-proj-link');
-    Array.from(projectHeaderList).forEach(elem => {
-        elem.addEventListener('click', e => {
-            setAndDisplayProject(Number(elem.dataset.projId));
-
-            const button = document.querySelector(`[data-project-id="${Number(elem.dataset.projId)}"]`);
-
-            display.changePageSelect(button);
-        });
-    });
+    projectHeaderLinks();
 
     display.displayHome(todo.projects);
 
@@ -423,6 +413,19 @@ function displayHome() {
             setAndDisplayProject(Number(btn.dataset.goProjectId));
 
             const button = document.querySelector(`[data-project-id="${Number(btn.dataset.goProjectId)}"]`);
+            display.changePageSelect(button);
+        });
+    });
+}
+
+function projectHeaderLinks() {
+    const projectHeaderList = document.querySelectorAll('.task-due-soon-proj-link');
+    Array.from(projectHeaderList).forEach(elem => {
+        elem.addEventListener('click', e => {
+            setAndDisplayProject(Number(elem.dataset.projId));
+
+            const button = document.querySelector(`[data-project-id="${Number(elem.dataset.projId)}"]`);
+
             display.changePageSelect(button);
         });
     });
@@ -445,3 +448,18 @@ async function getQuote() {
 
     return await res.json();
 }
+
+const searchForm = document.querySelector('.search-form');
+searchForm.addEventListener('submit', e => {
+    e.preventDefault();
+
+    const searchVal = document.querySelector('input#task-search').value;
+    const result = todo.searchTasks(searchVal.toLowerCase());
+
+    display.displaySearchResults(searchVal, result);
+    projectHeaderLinks();
+
+    document.querySelector('input#task-search').value = '';
+
+    display.changePageSelect(null);
+});

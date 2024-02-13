@@ -8,11 +8,17 @@
 <body>
     <div class="content-wrapper">
         <div class="sidebar">
-            <h1>Toodooo App</h1>
+            <h1>Todo List</h1>
+            <form class="search-form">
+                <input type="search" 
+                       id="task-search"
+                       name="task-search"
+                       placeholder="Search tasks" 
+                       autocomplete="off" />
+            </form>
             <div class="home-links">
                 <a href="#" class="home">Home</a>
                 <a href="#" class="today" data-project-id="0">Today</a>
-                <a href="#" class="upcoming">Upcoming</a>
                 <a href="#" class="quote">Quote of the day</a>
             </div>
             <div class="projects-btn-wrapper">
@@ -83,6 +89,15 @@
                 <div class="quote-wrapper">
                     <p class="quote-content"></p>
                     <p class="quote-author"></p>
+                </div>
+            </div>
+
+            <div class="search-body">
+                <div class="search-results-wrapper">
+
+                </div>
+                <div class="search-no-results">
+                    <h1>No Tasks Found :[</h1>
                 </div>
             </div>
 

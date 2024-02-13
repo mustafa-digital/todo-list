@@ -48,14 +48,14 @@ export default class ToDoList {
         let dueSoonList = [];
         const projects = new Map(this.projects);
         projects.set(0, this.todayProj);
-        projects.forEach( (proj, projID) => {
-            const tasks = proj.getProjectTasks();
+        projects.forEach( (project, projID) => {
+            const tasks = project.getProjectTasks();
             tasks.forEach((task, taskID) => {
                 if (!task.getIsDone()) {
                     if (task.isOverdue) {
                         dueSoonList.push({
                             task: task,
-                            project: proj
+                            project: project
                         });
                     }
                     else {
@@ -67,7 +67,7 @@ export default class ToDoList {
                             if (dayDiff <= 3) {
                                 dueSoonList.push({
                                     task: task,
-                                    project: proj
+                                    project: project
                                 }); 
                             }
                         }
@@ -97,6 +97,24 @@ export default class ToDoList {
         }
 
         return [...this.sortTasksByDueDate(left), pivot, ...this.sortTasksByDueDate(right)];
+    }
+
+    searchTasks(searchVal) {
+        let tasksResult = [];
+        const projects = new Map(this.projects);
+        projects.set(0, this.todayProj);
+
+        projects.forEach( (project, projID) => {
+            project.getProjectTasks().forEach( (task, taskID) => {
+                if (task.getTitle().toLowerCase().includes(searchVal)) {
+                    tasksResult.push({
+                        task: task,
+                        project: project
+                    });
+                }
+            });
+        });
+        return tasksResult;
     }
 
 }

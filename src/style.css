@@ -68,7 +68,7 @@ header {
     flex-direction: column;
     justify-content: start;
     align-items: start;
-    gap: 50px;
+    gap: 30px;
 }
 
 .sidebar h1 {
@@ -77,6 +77,27 @@ header {
 
 .sidebar-selected {
     background-color: rgba(0, 0, 0, 0.2);
+}
+
+.search-form {
+    width: 100%;
+    position: relative;
+    left: -25px;
+}
+
+input#task-search {
+    color: black;
+    border: none; 
+    font-size: 1rem; 
+    cursor: pointer;
+}
+
+input#task-search:focus {
+    cursor: auto;
+}
+
+input#task-search::placeholder {
+    color: #343434;
 }
 
 .home-links {
@@ -90,7 +111,8 @@ header {
     left: -25px;
 }
 
-.home-links a {
+.home-links a,
+input#task-search{
     width: calc(100% + 50px);
     padding: 10px;
     padding-left: 25px;
@@ -100,14 +122,6 @@ header {
 .home-links a:hover {
     /* font-size: 2rem; */
     background-color: rgba(0, 0, 0, 0.2);
-}
-
-.home-links a:hover::before {
-    /* position: relative;
-    top: 8px; 
-    content: "#";
-    font-size: 2.5rem;
-    margin-right: 10px; */
 }
 
 .projects-btn-wrapper {
@@ -828,11 +842,11 @@ section.home-my-projects {
     row-gap: 10px;
     padding: 10px 0px;
 }
-.overdue {
+.overdue.home {
     color: red;
 }
 
-.due-soon {
+.due-soon.home {
     color: #fbbf24;
 }
 
@@ -876,7 +890,8 @@ section.home-my-projects {
     justify-self: end;
 }
 
-.home-no-tasks-due {
+.home-no-tasks-due,
+.search-no-results {
     display: none;
     width: 400px;
     height: 75px;
@@ -949,6 +964,19 @@ section.home-my-projects {
     position: relative;
     right: -30px;
     font-size: 1.5rem;
+}
+
+.search-body {
+    margin-top: 20px;
+}
+
+.search-results-wrapper {
+    display: grid;
+    row-gap: 15px;
+}
+
+.task-due-soon-proj-link {
+    cursor: pointer;
 }
 
 .form-cancel-btn,
