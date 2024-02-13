@@ -3,6 +3,7 @@ import addTaskIconSrc from './assets/plus-box.svg';
 import editTaskIconSrc from './assets/pencil-outline.svg';
 import deleteTaskIconSrc from './assets/trash-can-outline.svg';
 import quoteUnderlineSrc from './assets/green-47700.svg';
+import logoImgSrc from './assets/hummingbird-2.svg';
 
 
 export default class Display {
@@ -80,7 +81,7 @@ export default class Display {
         }
 
         const bodyHeaderWrapper = document.querySelector('.body-header-wrapper');
-        bodyHeaderWrapper.style.display = "block";
+        bodyHeaderWrapper.style.display = "flex";
 
         const projectBody = document.querySelector(".project-body");
         projectBody.style.display = "block";
@@ -370,7 +371,7 @@ export default class Display {
         editProjDiv.style.display = "none";
 
         const bodyHeaderWrapper = document.querySelector('.body-header-wrapper');
-        bodyHeaderWrapper.style.display = "block";
+        bodyHeaderWrapper.style.display = "flex";
 
         const projectBody = document.querySelector(".project-body");
         projectBody.style.display = "none";
@@ -583,7 +584,7 @@ export default class Display {
         editProjDiv.style.display = "none";
 
         const bodyHeaderWrapper = document.querySelector('.body-header-wrapper');
-        bodyHeaderWrapper.style.display = "block";
+        bodyHeaderWrapper.style.display = "flex";
 
         const projectBody = document.querySelector(".project-body");
         projectBody.style.display = "none";
@@ -615,6 +616,11 @@ export default class Display {
                 resultsWrapper.appendChild(taskWrapper);
             }
         }
+    }
+
+    addImgSrc() {
+        const img = document.querySelector('.logo-img');
+        img.src = logoImgSrc;
     }
 
 

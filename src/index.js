@@ -16,6 +16,8 @@ const newTaskForm = document.getElementById("new-task-form");
 
 // load projects on document load and add event listeners to elements
 document.addEventListener("DOMContentLoaded", () => {
+    display.addImgSrc();
+
     //display projects on the sidebar
     display.displayProjects(todo.projects);
 
@@ -103,6 +105,12 @@ function addHomeLinkEvents() {
     const home = document.querySelector(".home");
     home.addEventListener("click", e => {
         displayHome();
+    });
+
+    const logo = document.querySelector('.logo-div a');
+    logo.addEventListener("click", e => {
+        displayHome();
+        display.changePageSelect(home);
     });
 
     const today = document.querySelector('.today');
