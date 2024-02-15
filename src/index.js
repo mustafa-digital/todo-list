@@ -5,6 +5,7 @@ import '@yaireo/tagify/dist/tagify.css';
 import ToDoList from './todo';
 import Display from './display';
 import Task from './task';
+import { populateStorage, getTodoFromStorage } from './storage';
 
 const display = new Display();
 const todo = new ToDoList();
@@ -16,6 +17,15 @@ const newTaskForm = document.getElementById("new-task-form");
 
 // load projects on document load and add event listeners to elements
 document.addEventListener("DOMContentLoaded", () => {
+
+        if (storageAvailable('localStorage')) {
+            if (localStorage.length === 0) {
+                todo.init();
+              } else {
+                getTodoFromStorage(todo);
+              }
+        } else {}
+
     display.addImgSrc();
 
     //display projects on the sidebar
@@ -57,8 +67,6 @@ document.addEventListener("DOMContentLoaded", () => {
     tagifyInputs();
 
     editTaskSubmitEvent();
-
-    // setAndDisplayProject();
 });
 
 function isClickOutOfBounds(e, dialog) {
@@ -166,6 +174,8 @@ function newTaskSubmitEvent() {
         // close the modal
         newTaskModal.close();
 
+        storeTaskIsDone();
+
         // reset the task form
         resetTaskForm();
     });  
@@ -199,6 +209,7 @@ function editTaskSubmitEvent() {
         display.displayEditedTask(task, taskID);
 
         editTaskForm.removeAttribute("data-task-id");
+        populateStorage(todo);
     });
 }
 
@@ -274,6 +285,7 @@ function setAndDisplayProject(projectId=todo.getCurrentProject().getProjectID())
     todo.setCurrentProject(project);
     display.displayProjectContent(project);
     projectPageEvents();
+    storeTaskIsDone();
 }
 
 /*
@@ -471,3 +483,39 @@ searchForm.addEventListener('submit', e => {
 
     display.changePageSelect(null);
 });
+
+function storageAvailable(type) {
+    let storage;
+    try {
+      storage = window[type];
+      const x = "__storage_test__";
+      storage.setItem(x, x);
+      storage.removeItem(x);
+      return true;
+    } catch (e) {
+      return (
+        e instanceof DOMException &&
+        // everything except Firefox
+        (e.code === 22 ||
+          // Firefox
+          e.code === 1014 ||
+          // test name field too, because code might not be present
+          // everything except Firefox
+          e.name === "QuotaExceededError" ||
+          // Firefox
+          e.name === "NS_ERROR_DOM_QUOTA_REACHED") &&
+        // acknowledge QuotaExceededError only if there's something already stored
+        storage &&
+        storage.length !== 0
+      );
+    }
+}
+
+function storeTaskIsDone() {
+    const checkboxes = document.querySelectorAll('.check-task');
+    checkboxes.forEach(checkbox => {
+        checkbox.addEventListener('change', e => {
+            populateStorage(todo);
+        });
+    });
+}

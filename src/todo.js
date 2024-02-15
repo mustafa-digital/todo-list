@@ -1,5 +1,9 @@
 import Project from './project';
+import Task from './task';
 import { differenceInCalendarDays, isFuture } from 'date-fns';
+import { populateStorage } from './storage';
+
+const TODAY_PROJECT_ID = 0;
 
 export default class ToDoList {
     projects;
@@ -9,27 +13,58 @@ export default class ToDoList {
 
     constructor() {
         this.projects = new Map();
+    }
+
+    init() {
         this.todayProj = this.createNewProject('Today');
         this.setCurrentProject(this.createNewProject("Default Project"));
     }
 
-    createNewProject(newProjectName) {
-        const newProject = new Project(newProjectName);
-        if (newProject.getProjectID() !== 0) {
+    createNewProject(newProjectName, id=null) {
+        let newProject;
+
+        // if project has an id (from localStorage) create it with id, else leave id blank to generate new id
+        if (id === null) {
+            newProject = new Project(newProjectName);
+        }
+        else {
+            newProject = new Project(newProjectName, id);
+        }
+
+        // this is here because we don't want to add Today project to the general list of projects
+        if (newProject.getProjectID() !== TODAY_PROJECT_ID) {
+            console.log(newProject.getProjectID());
             const newProjectID = newProject.getProjectID();
             this.projects.set(newProjectID, newProject);
         }
 
+        populateStorage(this);
         return newProject;
     }
 
     deleteCurrentProject() {
         this.projects.delete(this.currentProject.getProjectID());
-
+        populateStorage(this);
     }
 
     setCurrentProject(project) {
         this.currentProject = project;
+    }
+    
+    getProjects() {
+        return this.projects;
+    }
+
+    setProjects(projects) {
+        this.projects = projects;
+    }
+
+    getToday() {
+        return this.todayProj;
+    }
+
+    setToday(todayProj) {
+        this.todayProj = todayProj;
     }
 
     getCurrentProject() {
@@ -38,10 +73,12 @@ export default class ToDoList {
 
     addNewTaskToProject(newTask) {
         this.currentProject.addTask(newTask);
+        populateStorage(this);
     }
 
     deleteTaskFromProject(taskToDeleteId) {
         this.currentProject.deleteTask(taskToDeleteId);
+        populateStorage(this);
     }
 
     getTasksDueSoon() {
@@ -49,6 +86,7 @@ export default class ToDoList {
         const projects = new Map(this.projects);
         projects.set(0, this.todayProj);
         projects.forEach( (project, projID) => {
+            console.log({project, projID});
             const tasks = project.getProjectTasks();
             tasks.forEach((task, taskID) => {
                 if (!task.getIsDone()) {
@@ -125,6 +163,23 @@ export default class ToDoList {
             });
         });
         return tasksResult;
+    }
+
+    parseStorageData( tasks ) {
+        console.log(tasks);
+
+        for ( const [projectData, taskArray] of tasks) {
+            const project = this.createNewProject(projectData.projectName, projectData.projectID);
+
+            if (project.getProjectID() === 0) this.todayProj = project;
+
+            taskArray.forEach( taskData => {
+                const task = new Task(taskData.title, taskData.description, taskData.dueDate, taskData.priority, taskData.difficulty, taskData.tags, taskData.taskId);
+                task.setIsDone(taskData.isDone);
+
+                project.addTask(task);
+            });
+        }
     }
 
 }

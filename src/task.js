@@ -9,7 +9,7 @@ export default class Task {
     isDone = false;
     isOverdue;
 
-    constructor(title, description, dueDate, priority, difficulty, tags) {
+    constructor(title, description, dueDate, priority, difficulty, tags, id=null) {
         this.title = title;
         this.description = description;
         this.dueDate = dueDate;
@@ -17,7 +17,13 @@ export default class Task {
         this.difficulty = difficulty;
         this.tags = tags;
 
-        this.taskId = Task.id++;
+        if (id === null) {
+            this.taskId = Task.id++;
+        }
+        else {
+            this.taskId = id;
+            Task.id++;
+        }
 
         if (this.dueDate) { this.isOverdue = isPast(this.dueDate); }
     }
@@ -44,6 +50,8 @@ export default class Task {
 
     setDueDate(newDueDate) {
         this.dueDate = newDueDate;
+
+        if (this.dueDate) { this.isOverdue = isPast(this.dueDate); }
     }
 
     getPriority() {

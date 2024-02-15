@@ -3,9 +3,16 @@ import _ from 'lodash';
 export default class Project {
     static id = 0;
 
-    constructor(name) {
+    constructor(name, id=null) {
         this.projectTasks = new Map();
-        this.projectID = Project.id++;
+        if (id === null) {
+            this.projectID = Project.id++;
+        }
+        else {
+            this.projectID = id;
+            Project.id++;
+        }
+
         this.projectName = name;
     }
 
