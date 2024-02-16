@@ -3,11 +3,13 @@ export function populateStorage(todo) {
     if (!todo.getToday()) {
         return;
     }
+
     const projects = new Map(todo.getProjects());
     projects.set(todo.getToday().getProjectID(), todo.getToday());
     let tasks = new Map();
     for (const [projectID, project] of projects) {
-        if (project.getProjectTasks().length !== 0) {
+        tasks.set(project, []);
+        if (project.getProjectTasks()) {
             for (const [taskID, task] of project.getProjectTasks()) {
                 if (tasks.has(project)){
                     tasks.get(project).push(task);

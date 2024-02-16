@@ -6,6 +6,7 @@ import ToDoList from './todo';
 import Display from './display';
 import Task from './task';
 import { populateStorage, getTodoFromStorage } from './storage';
+import { differenceInCalendarDays } from 'date-fns';
 
 const display = new Display();
 const todo = new ToDoList();
@@ -33,10 +34,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
     //display home page
     displayHome();
-
-    // //display currently selected project's tasks
-    // let currentProject = todo.getCurrentProject();
-    // display.displayProjectContent(currentProject);
 
     // add project button shows the project form modal
     const addProjectButton = document.querySelectorAll(".add-proj-btn");
@@ -453,11 +450,33 @@ function projectHeaderLinks() {
 
 function displayQuote() {
 
-    getQuote().then(res => {
-        display.displayQuote(res.content, res.author);
-    });
+    const prevQuoteDate = Date.parse(JSON.parse(localStorage.getItem('quoteDate')));
 
+    if (prevQuoteDate) {
+        const currentDate = new Date().getTime();
+        if (differenceInCalendarDays(currentDate, prevQuoteDate) >= 1) {
+            getQuote().then(res => {
+                display.displayQuote(res.content, res.author);
+                localStorage.setItem('quoteDate', JSON.stringify(new Date()));
+                localStorage.setItem('quote', res.content);
+                localStorage.setItem('quoteAuthor', res.author);
+            });
+        } else {
+            const quote = localStorage.getItem('quote');
+            const author = localStorage.getItem('quoteAuthor');
 
+            display.displayQuote(quote, author);
+        }
+
+    }
+    else {
+        getQuote().then(res => {
+            display.displayQuote(res.content, res.author);
+            localStorage.setItem('quoteDate', JSON.stringify(new Date()));
+            localStorage.setItem('quote', res.content);
+            localStorage.setItem('quoteAuthor', res.author);
+        });
+    }
 }
 
 async function getQuote() {

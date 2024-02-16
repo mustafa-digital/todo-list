@@ -16,6 +16,7 @@ export default class ToDoList {
     }
 
     init() {
+        console.log("init");
         this.todayProj = this.createNewProject('Today');
         this.setCurrentProject(this.createNewProject("Default Project"));
     }
@@ -33,7 +34,6 @@ export default class ToDoList {
 
         // this is here because we don't want to add Today project to the general list of projects
         if (newProject.getProjectID() !== TODAY_PROJECT_ID) {
-            console.log(newProject.getProjectID());
             const newProjectID = newProject.getProjectID();
             this.projects.set(newProjectID, newProject);
         }
@@ -86,7 +86,6 @@ export default class ToDoList {
         const projects = new Map(this.projects);
         projects.set(0, this.todayProj);
         projects.forEach( (project, projID) => {
-            console.log({project, projID});
             const tasks = project.getProjectTasks();
             tasks.forEach((task, taskID) => {
                 if (!task.getIsDone()) {
@@ -166,8 +165,6 @@ export default class ToDoList {
     }
 
     parseStorageData( tasks ) {
-        console.log(tasks);
-
         for ( const [projectData, taskArray] of tasks) {
             const project = this.createNewProject(projectData.projectName, projectData.projectID);
 
