@@ -16,7 +16,6 @@ export default class ToDoList {
     }
 
     init() {
-        console.log("init");
         this.todayProj = this.createNewProject('Today');
         this.setCurrentProject(this.createNewProject("Default Project"));
     }
@@ -150,14 +149,17 @@ export default class ToDoList {
                     });
                 }
                 else {
-                    JSON.parse(task.getTags()).forEach(tag => {
-                        if (tag.value.includes(searchVal)) {
-                            tasksResult.push({
-                                task: task,
-                                project: project
-                            });
-                        }
-                    });
+                    console.log(task.getTags());
+                    if (task.getTags()) {
+                        JSON.parse(task.getTags()).forEach(tag => {
+                            if (tag.value.includes(searchVal)) {
+                                tasksResult.push({
+                                    task: task,
+                                    project: project
+                                });
+                            }
+                        });
+                    }
                 }
             });
         });
@@ -171,10 +173,11 @@ export default class ToDoList {
             if (project.getProjectID() === 0) this.todayProj = project;
 
             taskArray.forEach( taskData => {
-                const task = new Task(taskData.title, taskData.description, taskData.dueDate, taskData.priority, taskData.difficulty, taskData.tags, taskData.taskId);
-                task.setIsDone(taskData.isDone);
+            const task = new Task(taskData.title, taskData.description, taskData.dueDate,
+                                    taskData.priority, taskData.difficulty, taskData.tags, taskData.taskId);
+            task.setIsDone(taskData.isDone);
 
-                project.addTask(task);
+            project.addTask(task);
             });
         }
     }

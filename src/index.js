@@ -19,13 +19,15 @@ const newTaskForm = document.getElementById("new-task-form");
 // load projects on document load and add event listeners to elements
 document.addEventListener("DOMContentLoaded", () => {
 
-        if (storageAvailable('localStorage')) {
-            if (localStorage.length === 0) {
-                todo.init();
-              } else {
-                getTodoFromStorage(todo);
-              }
-        } else {}
+    if (storageAvailable('localStorage')) {
+        if (localStorage.length === 0) {
+            todo.init();
+        } else {
+            getTodoFromStorage(todo);
+        }
+    } else {}
+
+    console.log(todo);
 
     display.addImgSrc();
 
