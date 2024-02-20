@@ -27,8 +27,6 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     } else {}
 
-    console.log(todo);
-
     display.addImgSrc();
 
     //display projects on the sidebar
@@ -280,11 +278,14 @@ function dialogEventInit() {
 */
 function setAndDisplayProject(projectId=todo.getCurrentProject().getProjectID()) {
     let project;
-     (projectId === 0) ? project = todo.todayProj : project = todo.projects.get(projectId);
+    (projectId === 0) ? project = todo.todayProj : project = todo.projects.get(projectId);
     todo.setCurrentProject(project);
     display.displayProjectContent(project);
     projectPageEvents();
     storeTaskIsDone();
+
+    const sortByForm = document.querySelector('.project-body form');
+    sortByForm.reset();
 }
 
 /*
@@ -442,9 +443,7 @@ function projectHeaderLinks() {
     Array.from(projectHeaderList).forEach(elem => {
         elem.addEventListener('click', e => {
             setAndDisplayProject(Number(elem.dataset.projId));
-
             const button = document.querySelector(`[data-project-id="${Number(elem.dataset.projId)}"]`);
-
             display.changePageSelect(button);
         });
     });
@@ -540,3 +539,28 @@ function storeTaskIsDone() {
         });
     });
 }
+
+const taskSortSelect = document.getElementById('task-sort-select');
+let sortedTasks;
+taskSortSelect.addEventListener('change', e => {
+    if (e.target.value === 'due-earliest') {
+        sortedTasks = todo.sortEarliestDueDate();
+    }
+    else if (e.target.value === 'due-latest') {
+        sortedTasks = todo.sortLatestDueDate();
+    }
+    else if (e.target.value === 'prio-highest') {
+        sortedTasks = todo.sortHighestPriority();
+    }
+    else if (e.target.value === 'prio-lowest') {
+        sortedTasks = todo.sortLowestPriority();
+    }
+    else if (e.target.value === 'diff-highest') {
+        sortedTasks = todo.sortHighestDifficulty();
+    }
+    else if (e.target.value === 'diff-lowest') {
+        sortedTasks = todo.sortLowestDifficulty();
+    }
+
+    display.displayProjectContent(todo.getCurrentProject(), sortedTasks);
+});

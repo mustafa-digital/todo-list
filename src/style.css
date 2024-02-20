@@ -256,7 +256,18 @@ input#task-search{
     flex-direction: column;
 }
 
- .task-content-wrapper {
+.project-body form {
+    display: grid;
+}
+
+select#task-sort-select {
+    width: 150px;
+    align-self: end;
+    justify-self: end;
+    margin-top: 20px;
+}
+
+.task-content-wrapper {
     width: 100%;
 }  
 

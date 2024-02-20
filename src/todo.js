@@ -149,7 +149,6 @@ export default class ToDoList {
                     });
                 }
                 else {
-                    console.log(task.getTags());
                     if (task.getTags()) {
                         JSON.parse(task.getTags()).forEach(tag => {
                             if (tag.value.includes(searchVal)) {
@@ -180,6 +179,131 @@ export default class ToDoList {
             project.addTask(task);
             });
         }
+    }
+
+    sortEarliestDueDate() {
+        const tasks = this.currentProject.getProjectTasks();
+        return new Map([...tasks.entries()].sort(this.compareDueEarliest));
+    }
+
+    compareDueEarliest(taskA, taskB) {
+        const dateA = Date.parse(taskA[1].dueDate);
+        const dateB = Date.parse(taskB[1].dueDate);
+
+        if (isNaN(dateA) && isNaN(dateB)) return 0;
+        else if (isNaN(dateA)) return 1;
+        else if (isNaN(dateB)) return -1;
+
+        if (dateA > dateB) return 1;
+        else if (dateA < dateB) return -1;
+        else return 0;
+    }
+
+    sortLatestDueDate() {
+        const tasks = this.currentProject.getProjectTasks();
+        return new Map([...tasks.entries()].sort(this.compareDueLatest));
+    }
+
+    compareDueLatest(taskA, taskB) {
+        const dateA = Date.parse(taskA[1].dueDate);
+        const dateB = Date.parse(taskB[1].dueDate);
+
+        console.log({dateA});
+        console.log({dateB});
+
+        if (isNaN(dateA) && isNaN(dateB)) return 0;
+        else if (isNaN(dateA)) return 1;
+        else if (isNaN(dateB)) return -1;
+
+        if (dateA > dateB) return -1;
+        else if (dateA < dateB) return 1;
+        else return 0;
+    }
+
+    sortHighestPriority() {
+        const tasks = this.currentProject.getProjectTasks();
+        return new Map([...tasks.entries()].sort(this.comparePriorityHighest));
+    }
+
+    comparePriorityHighest(taskA, taskB) {
+        const prioA = taskA[1].priority;
+        const prioB = taskB[1].priority;
+
+        if (prioA > prioB) return 1;
+        else if (prioA < prioB) return -1;
+        else return 0;
+
+    }
+
+    sortLowestPriority() {
+        const tasks = this.currentProject.getProjectTasks();
+        return new Map([...tasks.entries()].sort(this.comparePriorityLowest));
+    }
+
+    comparePriorityLowest(taskA, taskB) {
+        const prioA = taskA[1].priority;
+        const prioB = taskB[1].priority;
+
+        if (prioA === 'none') return 1;
+        if (prioB === 'none') return -1;
+
+        if (prioA > prioB) return -1;
+        else if (prioA < prioB) return 1;
+        else return 0;
+
+    }
+
+    sortHighestDifficulty() {
+        const tasks = this.currentProject.getProjectTasks();
+        return new Map([...tasks.entries()].sort(this.compareDifficultyHighest.bind(this)));
+    }
+
+    compareDifficultyHighest(taskA, taskB) {
+        const diffA = taskA[1].difficulty;
+        const diffB = taskB[1].difficulty;
+
+        const aVal = this.convertDifficultyToNumbers(diffA);
+        const bVal = this.convertDifficultyToNumbers(diffB);
+
+        if (isNaN(aVal) && isNaN(bVal)) return 0;
+        else if (isNaN(aVal)) return 1;
+        else if (isNaN(bVal)) return -1;
+
+        if (aVal > bVal) return -1;
+        else if (aVal < bVal) return 1;
+        else return 0;
+
+    }
+
+    sortLowestDifficulty() {
+        const tasks = this.currentProject.getProjectTasks();
+        return new Map([...tasks.entries()].sort(this.compareDifficultyLowest.bind(this)));
+    }
+
+    compareDifficultyLowest(taskA, taskB) {
+        const diffA = taskA[1].difficulty;
+        const diffB = taskB[1].difficulty;
+
+        const aVal = this.convertDifficultyToNumbers(diffA);
+        const bVal = this.convertDifficultyToNumbers(diffB);
+
+        if (isNaN(aVal) && isNaN(bVal)) return 0;
+        else if (isNaN(aVal)) return 1;
+        else if (isNaN(bVal)) return -1;
+
+        if (aVal > bVal) return 1;
+        else if (aVal < bVal) return -1;
+        else return 0;
+
+    }
+
+    convertDifficultyToNumbers(diff) {
+        if (diff === 'easy') return 1;
+        else if (diff === 'medium') return 2;
+        else if (diff === 'hard') return 3;
+
+        return NaN;
+
     }
 
 }

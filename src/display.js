@@ -72,7 +72,7 @@ export default class Display {
         this.projectsDiv.removeChild(projectToDeleteDOM);
     }
 
-    displayProjectContent(project) {
+    displayProjectContent(project, tasks=project.getProjectTasks()) {
         const editProjDiv = document.querySelector(".edit-proj-div");
         if (project.getProjectID() !== 0) {
         editProjDiv.style.display = "block";
@@ -84,7 +84,7 @@ export default class Display {
         bodyHeaderWrapper.style.display = "flex";
 
         const projectBody = document.querySelector(".project-body");
-        projectBody.style.display = "block";
+        projectBody.style.display = "grid";
 
         const quoteBody = document.querySelector('.quote-body');
         quoteBody.style.display = "none";
@@ -123,8 +123,8 @@ export default class Display {
         taskDiv.textContent = "";
 
         // display every task in this project
-        const projectTasks = project.getProjectTasks();
-        projectTasks.forEach( (task) => {
+        // const projectTasks = project.getProjectTasks();
+        tasks.forEach( (task) => {
             this.displayTask(task);
         });        
     }
@@ -445,11 +445,13 @@ export default class Display {
         homeTaskWrapper.textContent = '';
 
         const noTasks = document.querySelector('.home-no-tasks-due');
-        if (dueSoonList.length === 0) noTasks.style.display = 'grid';
-        else {
+        if (dueSoonList.length === 0) {
+            homeTaskWrapper.style.display = 'none';
+            noTasks.style.display = 'grid';
+        } else {
+            homeTaskWrapper.style.display = 'grid';
             noTasks.style.display = 'none';
 
-            const homeTaskWrapper = document.querySelector('.home-tasks-due-soon-wrapper');
             dueSoonList.forEach(({task, project}) => {
                 const taskWrapper = this.displayDueSoonTask(task, project, "home");
 
